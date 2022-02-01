@@ -1,26 +1,36 @@
-import Input from 'components/Input';
 import * as S from './styles';
 
-export default function Home() {
-  const nickname = 'joaoD3V';
+export type Profile = {
+  img: string;
+  nick: string;
+};
 
+export type HomeTemplateProps = {
+  profile?: Profile;
+};
+
+export default function Home({
+  profile = { img: '/img/profile.gif', nick: 'coffy' },
+}: HomeTemplateProps) {
   return (
     <S.Wrapper>
       <S.Box>
-        <S.TextArea>
-          <S.Title>Seja bem vindo ao Coffy!</S.Title>
-          <S.Description>Pegue um café e vamos conversar</S.Description>
-        </S.TextArea>
+        <S.Action>
+          <S.TextArea>
+            <S.Title>Seja bem vindo ao Coffy! ☕</S.Title>
+            <S.Description>Pegue um café e vamos conversar</S.Description>
+          </S.TextArea>
 
-        <S.Form>
-          <Input name="nick" />
-          <S.Button>Entrar</S.Button>
-        </S.Form>
+          <S.Form>
+            <S.Input placeholder="Digite seu nick do github" />
+            <S.Button>Entrar</S.Button>
+          </S.Form>
+        </S.Action>
 
-        <S.ImageAre>
-          <S.Profile />
-          <S.Nick>{nickname}</S.Nick>
-        </S.ImageAre>
+        <S.ImageArea>
+          <S.Profile profile={profile.img} />
+          <S.Nick>{profile.nick}</S.Nick>
+        </S.ImageArea>
       </S.Box>
     </S.Wrapper>
   );
