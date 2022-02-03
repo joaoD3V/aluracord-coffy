@@ -107,6 +107,16 @@ export const Button = styled.button`
     &:hover {
       background: ${theme.colors.neutrals[600]};
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      background: ${theme.colors.neutrals[200]};
+      color: ${theme.colors.neutrals[800]};
+
+      &:hover {
+        background: ${theme.colors.neutrals[200]};
+      }
+    }
   `}
 `;
 

@@ -1,7 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useRouter } from 'next/router';
+
+import { FormEvent, useEffect, useState } from 'react';
+
 import axios from 'axios';
+
 import Toastify, { showToast } from 'components/Toastify';
-import { useEffect, useState } from 'react';
+
 import * as S from './styles';
 
 export type ProfileProps = {
@@ -11,9 +16,10 @@ export type ProfileProps = {
 };
 
 export default function Home() {
+  const router = useRouter();
   const [nickname, setNickname] = useState('');
   const [user, setUser] = useState<ProfileProps>({
-    login: 'coffy',
+    login: 'coffybucks',
     avatar_url: '/img/profile.gif',
     name: 'Coffy',
   });
@@ -34,7 +40,7 @@ export default function Home() {
       }
     } else {
       setUser({
-        login: 'coffy',
+        login: 'coffybucks',
         avatar_url: '/img/profile.gif',
         name: 'Coffy',
       });
@@ -49,6 +55,11 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, [nickname]);
 
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+    router.push('/chat');
+  }
+
   return (
     <S.Wrapper>
       <Toastify />
@@ -59,22 +70,24 @@ export default function Home() {
             <S.Description>Pegue um café e vamos conversar</S.Description>
           </S.TextArea>
 
-          <S.Form>
+          <S.Form onSubmit={handleSubmit}>
             <S.Input
               name="nickname"
               placeholder="Digite seu nick do github"
               onChange={(e) => setNickname(e.target.value)}
               value={nickname}
             />
-            <S.Button>Entrar</S.Button>
+            <S.Button type="submit" disabled={user.login === 'coffybucks'}>
+              Entrar
+            </S.Button>
           </S.Form>
         </S.Action>
 
         <S.ImageArea>
-          {user.login === 'Coffy' ? (
+          {user.login === 'coffybucks' ? (
             <>
               <S.Profile profile={user.avatar_url} />
-              <S.Nick>coffy</S.Nick>
+              <S.Nick>coffybucks</S.Nick>
             </>
           ) : (
             <>
