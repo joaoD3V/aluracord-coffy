@@ -1,3 +1,5 @@
-export default function Chat() {
-  return <h1>Chat</h1>;
+import Chat from 'templates/Chat';
+
+export default function ChatPage() {
+  return <Chat />;
 }

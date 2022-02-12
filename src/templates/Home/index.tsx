@@ -6,23 +6,20 @@ import { FormEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 
 import Toastify, { showToast } from 'components/Toastify';
+import { useUser } from 'components/hooks/useUser';
 
 import * as S from './styles';
 
 export type ProfileProps = {
   login: string;
   avatar_url: string;
-  name: string;
+  name?: string;
 };
 
 export default function Home() {
   const router = useRouter();
   const [nickname, setNickname] = useState('');
-  const [user, setUser] = useState<ProfileProps>({
-    login: 'coffybucks',
-    avatar_url: '/img/profile.gif',
-    name: 'Coffy',
-  });
+  const { user, handleSetUser } = useUser();
 
   async function getUser(user: string) {
     return await axios.get<ProfileProps>(
@@ -34,12 +31,12 @@ export default function Home() {
     if (user) {
       try {
         const { data } = await getUser(user);
-        setUser({ ...data });
+        handleSetUser({ ...data });
       } catch {
         showToast('error', 'Usuário não encontrado');
       }
     } else {
-      setUser({
+      handleSetUser({
         login: 'coffybucks',
         avatar_url: '/img/profile.gif',
         name: 'Coffy',

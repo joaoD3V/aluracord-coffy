@@ -4,6 +4,7 @@ import { ThemeProvider } from 'styled-components';
 
 import { GlobalStyles } from 'styles/global';
 import theme from 'styles/theme';
+import { UserContextProvider } from 'contexts/UserContext';
 
 function App({ Component, pageProps }: AppProps) {
   return (
@@ -19,7 +20,9 @@ function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <GlobalStyles />
-      <Component {...pageProps} />
+      <UserContextProvider>
+        <Component {...pageProps} />
+      </UserContextProvider>
     </ThemeProvider>
   );
 }
