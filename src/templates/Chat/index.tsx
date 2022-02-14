@@ -18,10 +18,12 @@ import {
   getAllDatafromDatabase,
   insertNewDataOnDatabase,
 } from 'services/supabase';
+import Loading from 'components/Loading';
 
 export default function Chat() {
   const [messagesList, setMessagesList] = useState<MessageProps[]>([]);
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useUser();
   const router = useRouter();
 
@@ -47,8 +49,10 @@ export default function Chat() {
 
   async function handleGetMessages() {
     try {
+      setIsLoading(true);
       const messages = await getAllDatafromDatabase('messages');
-      return setMessagesList(messages ? messages : ([] as MessageProps[]));
+      setMessagesList(messages ? messages : ([] as MessageProps[]));
+      return setIsLoading(false);
     } catch (e) {
       return console.log(e);
     }
@@ -68,39 +72,43 @@ export default function Chat() {
 
   return (
     <S.Wrapper>
-      <S.Box>
-        <S.Header>
-          <span>Chat</span>
-          <S.Logout>Logout</S.Logout>
-        </S.Header>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <S.Box>
+          <S.Header>
+            <span>Chat</span>
+            <S.Logout>Logout</S.Logout>
+          </S.Header>
 
-        <MessageList messages={messagesList} />
+          <MessageList messages={messagesList} />
 
-        <S.Form>
-          <S.Input
-            placeholder="Insira sua mensagem aqui"
-            onKeyPress={(e) => {
-              if (e.key === 'Enter' && message) {
-                handleSubmitMessage(e, message);
-                setMessage('');
-              }
-            }}
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
-          />
-          <MediaMatch lessThan="medium">
-            <S.Send
-              onClick={(e) => {
-                handleSubmitMessage(e, message);
-                setMessage('');
+          <S.Form>
+            <S.Input
+              placeholder="Insira sua mensagem aqui"
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && message) {
+                  handleSubmitMessage(e, message);
+                  setMessage('');
+                }
               }}
-            >
-              <Send />
-            </S.Send>
-          </MediaMatch>
-          <S.Sticker>😋</S.Sticker>
-        </S.Form>
-      </S.Box>
+              onChange={(e) => setMessage(e.target.value)}
+              value={message}
+            />
+            <MediaMatch lessThan="medium">
+              <S.Send
+                onClick={(e) => {
+                  handleSubmitMessage(e, message);
+                  setMessage('');
+                }}
+              >
+                <Send />
+              </S.Send>
+            </MediaMatch>
+            <S.Sticker>😋</S.Sticker>
+          </S.Form>
+        </S.Box>
+      )}
     </S.Wrapper>
   );
 }
