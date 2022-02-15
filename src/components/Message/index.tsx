@@ -8,10 +8,11 @@ export type MessageProps = {
   id: string;
   created_at: string;
   text: string;
+  isSticker: boolean;
 } & ProfileProps;
 
 const Message: React.ForwardRefRenderFunction<HTMLDivElement, MessageProps> = (
-  { avatar_url, login, text, created_at },
+  { avatar_url, login, text, created_at, isSticker },
   ref
 ) => {
   const date = formatDate(new Date(created_at));
@@ -26,7 +27,11 @@ const Message: React.ForwardRefRenderFunction<HTMLDivElement, MessageProps> = (
           {time} - {date === today ? 'Hoje' : date}
         </S.Timestamp>
       </S.Header>
-      <S.Text>{text}</S.Text>
+      {isSticker ? (
+        <S.Sticker src={text} alt="Sticker" />
+      ) : (
+        <S.Text>{text}</S.Text>
+      )}
     </S.Wrapper>
   );
 };

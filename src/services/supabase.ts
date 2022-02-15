@@ -9,7 +9,8 @@ const supabaseClient = createClient(
 export async function getAllDatafromDatabase(database: string) {
   const { data } = await supabaseClient
     .from<MessageProps>(database)
-    .select('*');
+    .select('*')
+    .order('created_at', { ascending: true });
   return data;
 }
 

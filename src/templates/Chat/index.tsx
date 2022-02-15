@@ -13,23 +13,28 @@ import MediaMatch from 'components/MediaMatch';
 
 import { Send } from '@styled-icons/feather/Send';
 
+import { stickers } from 'components/Stickers/stickers';
+
 import * as S from './styles';
 import {
   getAllDatafromDatabase,
   insertNewDataOnDatabase,
 } from 'services/supabase';
 import Loading from 'components/Loading';
+import Stickers from 'components/Stickers';
 
 export default function Chat() {
   const [messagesList, setMessagesList] = useState<MessageProps[]>([]);
   const [message, setMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [openStickers, setOpenStickers] = useState(false);
   const { user } = useUser();
   const router = useRouter();
 
   async function handleSubmitMessage(
     event: KeyboardEvent | MouseEvent,
-    message: string
+    message: string,
+    isSticker: boolean
   ) {
     event.preventDefault();
 
@@ -39,6 +44,7 @@ export default function Chat() {
       login: user.login,
       name: user.name,
       text: message,
+      isSticker,
     };
 
     const data = await insertNewDataOnDatabase('messages', newMessage);
@@ -56,6 +62,10 @@ export default function Chat() {
     } catch (e) {
       return console.log(e);
     }
+  }
+
+  function handleOpenCloseStickers() {
+    setOpenStickers(!openStickers);
   }
 
   useEffect(() => {
@@ -88,7 +98,7 @@ export default function Chat() {
               placeholder="Insira sua mensagem aqui"
               onKeyPress={(e) => {
                 if (e.key === 'Enter' && message) {
-                  handleSubmitMessage(e, message);
+                  handleSubmitMessage(e, message, false);
                   setMessage('');
                 }
               }}
@@ -98,15 +108,25 @@ export default function Chat() {
             <MediaMatch lessThan="medium">
               <S.Send
                 onClick={(e) => {
-                  handleSubmitMessage(e, message);
+                  handleSubmitMessage(e, message, false);
                   setMessage('');
                 }}
               >
                 <Send />
               </S.Send>
             </MediaMatch>
-            <S.Sticker>😋</S.Sticker>
+            <S.StickerButton onClick={handleOpenCloseStickers}>
+              😋
+            </S.StickerButton>
           </S.Form>
+
+          <S.StickersArea openStickers={openStickers}>
+            <Stickers
+              stickers={stickers}
+              handleSubmitMessage={handleSubmitMessage}
+              handleOpenCloseStickers={handleOpenCloseStickers}
+            />
+          </S.StickersArea>
         </S.Box>
       )}
     </S.Wrapper>

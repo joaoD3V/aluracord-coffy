@@ -23,6 +23,7 @@ export const Box = styled.div`
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-between;
+    position: relative;
 
     ${media.lessThan('medium')`
       height: 95vh;
@@ -84,7 +85,7 @@ export const Input = styled.input`
   `};
 `;
 
-export const Sticker = styled.button`
+export const StickerButton = styled.button`
   ${({ theme }) => css`
     display: block;
     width: 5rem;
@@ -96,6 +97,11 @@ export const Sticker = styled.button`
     border: 0;
     border-radius: 100%;
     cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover {
+      background: ${theme.colors.secondary};
+    }
 
     ${media.lessThan('medium')`
       width: 6rem;
@@ -113,5 +119,25 @@ export const Send = styled.button`
       height: 3rem;
       color: ${theme.colors.white};
     }
+  `};
+`;
+
+type StikersAreaProps = {
+  openStickers: boolean;
+};
+
+export const StickersArea = styled.div<StikersAreaProps>`
+  ${({ theme, openStickers }) => css`
+    position: absolute;
+    right: 6rem;
+    bottom: 7rem;
+    z-index: ${theme.layers.base};
+    opacity: ${openStickers ? 1 : 0};
+    pointer-events: ${openStickers ? 'all' : 'none'};
+
+    ${media.lessThan('medium')`
+       right: 0rem;
+       bottom: 8rem;
+    `}
   `};
 `;

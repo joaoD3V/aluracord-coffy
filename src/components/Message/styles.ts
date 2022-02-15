@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import media from 'styled-media-query';
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -61,5 +62,17 @@ export const Text = styled.span`
     font-weight: 300;
     line-height: calc(${theme.font.sizes.medium} * 1.5);
     padding: 0 ${theme.spacings.large};
+  `}
+`;
+
+export const Sticker = styled.img`
+  ${({ theme }) => css`
+    height: 15rem;
+    margin-top: ${theme.spacings.xsmall};
+    padding: 0 ${theme.spacings.large};
+
+    ${media.lessThan('medium')`
+      height: 10rem;
+    `}
   `}
 `;
