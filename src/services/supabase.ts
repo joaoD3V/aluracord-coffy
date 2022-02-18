@@ -18,7 +18,6 @@ export async function insertNewDataOnDatabase(
   database: string,
   message: Omit<MessageProps, 'created_at'>
 ) {
-  console.log('Na função', message);
   try {
     const { data } = await supabaseClient
       .from<MessageProps>(database)
@@ -27,4 +26,14 @@ export async function insertNewDataOnDatabase(
   } catch (error) {
     console.log(error);
   }
+}
+
+export function subscribeOnDatabase(
+  database: string,
+  addNewMessage: (newMessage: MessageProps) => void
+) {
+  return supabaseClient
+    .from<MessageProps>(database)
+    .on('INSERT', (response) => addNewMessage(response.new))
+    .subscribe();
 }

@@ -19,6 +19,7 @@ import * as S from './styles';
 import {
   getAllDatafromDatabase,
   insertNewDataOnDatabase,
+  subscribeOnDatabase,
 } from 'services/supabase';
 import Loading from 'components/Loading';
 import Stickers from 'components/Stickers';
@@ -32,11 +33,11 @@ export default function Chat() {
   const router = useRouter();
 
   async function handleSubmitMessage(
-    event: KeyboardEvent | MouseEvent,
     message: string,
-    isSticker: boolean
+    isSticker: boolean,
+    event?: KeyboardEvent | MouseEvent
   ) {
-    event.preventDefault();
+    event?.preventDefault();
 
     const newMessage: Omit<MessageProps, 'created_at'> = {
       id: uuidv4(),
@@ -47,10 +48,7 @@ export default function Chat() {
       isSticker,
     };
 
-    const data = await insertNewDataOnDatabase('messages', newMessage);
-    if (data) {
-      return setMessagesList([...messagesList, data]);
-    }
+    await insertNewDataOnDatabase('messages', newMessage);
   }
 
   async function handleGetMessages() {
@@ -78,6 +76,12 @@ export default function Chat() {
     user.login === defaultUser.login && router.push('/');
 
     handleGetMessages();
+
+    subscribeOnDatabase('messages', (newMessage: MessageProps) => {
+      setMessagesList((newValue) => {
+        return [...newValue, newMessage];
+      });
+    });
   }, []);
 
   return (
@@ -98,7 +102,7 @@ export default function Chat() {
               placeholder="Insira sua mensagem aqui"
               onKeyPress={(e) => {
                 if (e.key === 'Enter' && message) {
-                  handleSubmitMessage(e, message, false);
+                  handleSubmitMessage(message, false, e);
                   setMessage('');
                 }
               }}
@@ -108,7 +112,7 @@ export default function Chat() {
             <MediaMatch lessThan="medium">
               <S.Send
                 onClick={(e) => {
-                  handleSubmitMessage(e, message, false);
+                  handleSubmitMessage(message, false, e);
                   setMessage('');
                 }}
               >

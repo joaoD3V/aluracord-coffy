@@ -4,9 +4,9 @@ import * as S from './styles';
 export type StickersProps = {
   stickers: string[];
   handleSubmitMessage: (
-    event: MouseEvent,
     message: string,
-    isSticker: boolean
+    isSticker: boolean,
+    event: MouseEvent
   ) => Promise<void>;
   handleOpenCloseStickers: () => void;
 };
@@ -26,7 +26,7 @@ export default function Stickers({
             src={sticker}
             alt="sticker"
             onClick={(e) => {
-              handleSubmitMessage(e, sticker, true);
+              handleSubmitMessage(sticker, true, e);
               handleOpenCloseStickers();
             }}
           />
