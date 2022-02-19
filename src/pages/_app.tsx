@@ -11,12 +11,12 @@ function App({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={theme}>
       <Head>
         <title>Coffy</title>
-        <link rel="shortcut icon" href="/img/icon-512.png" />
-        <link rel="apple-touch-icon" href="/img/icon-512.png" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="shortcut icon" href="/img/logo.png" />
+        <link rel="apple-touch-icon" href="/img/logo.png" />
         <meta
           name="description"
-          content="A simple project starter to work with TypeScript, React, NextJS and Styled Components"
+          content="Seja bem vindo ao Coffy! ☕
+          Pegue um café e vamos conversar"
         />
       </Head>
       <GlobalStyles />
