@@ -1,4 +1,4 @@
-[🇺🇸 Read this page in English](http....README-en.md)
+[🇺🇸 Read this page in English](https://github.com/joaoD3V/aluracord-coffy/blob/main/README-en.md)
 
 -------------
 ##### 🇧🇷 Imersão React Alura - 2022
