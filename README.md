@@ -17,7 +17,7 @@ Login e Chat:
 
 Tratativa de erro quando o usuário do Github não é encontrado:
 
-![Error Login](https://media.giphy.com/media/c8DYFuPyOvdOGE6BbS/giphy.gif)
+![Error Login](https://media.giphy.com/media/c8DYFuPyOvdOGE6BbS/giphy-downsized-large.gif)
 
 ------------
 

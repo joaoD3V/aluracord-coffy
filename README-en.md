@@ -18,7 +18,7 @@ Login e Chat:
 
 Error handling when Github user is not found:
 
-![Error Login](https://media.giphy.com/media/c8DYFuPyOvdOGE6BbS/giphy.gif)
+![Error Login](https://media.giphy.com/media/c8DYFuPyOvdOGE6BbS/giphy-downsized-large.gif)
 
 ------------
 
