@@ -92,7 +92,7 @@ export default function Chat() {
         <S.Box>
           <S.Header>
             <span>Chat</span>
-            <S.Logout>Logout</S.Logout>
+            <S.Logout onClick={() => router.push('/')}>Logout</S.Logout>
           </S.Header>
 
           <MessageList messages={messagesList} />
